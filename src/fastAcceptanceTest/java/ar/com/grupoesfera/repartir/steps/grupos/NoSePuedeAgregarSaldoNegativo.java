@@ -16,10 +16,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class NoSePuedeAgregarSaldoNegativo extends FastCucumberSteps {
 
+    private Grupo grupo;
 
     @Dado("que existe un grupo con saldo en {int}")
     public void queHayUnGrupoConSaldoTotalIgualA(int monto) {
-
+        grupo = new Grupo();
+        grupo.setTotal(BigDecimal.valueOf(monto));
     }
 
     @Cuando("uno de sus usuarios intenta sumar un monto de {int}")
