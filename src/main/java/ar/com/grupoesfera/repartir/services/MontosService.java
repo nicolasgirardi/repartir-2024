@@ -1,5 +1,6 @@
 package ar.com.grupoesfera.repartir.services;
 
+import ar.com.grupoesfera.repartir.exceptions.MontoNegativoException;
 import ar.com.grupoesfera.repartir.model.Gasto;
 import ar.com.grupoesfera.repartir.model.Grupo;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,12 @@ public class MontosService {
     public void acumularAlTotal(Grupo grupo, Gasto gasto) {
 
         BigDecimal total = grupo.getTotal();
-        total = total.add(gasto.getMonto());
-        grupo.setTotal(total);
+        BigDecimal monto = gasto.getMonto();
+        BigDecimal nuevoTotal = total.add(monto);
+        if (nuevoTotal.signum() < 0) {
+            throw new MontoNegativoException("Monto Negativo");
+        }
+        grupo.setTotal(nuevoTotal);
     }
 
 }
