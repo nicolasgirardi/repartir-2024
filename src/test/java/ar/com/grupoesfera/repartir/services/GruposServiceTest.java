@@ -2,6 +2,7 @@ package ar.com.grupoesfera.repartir.services;
 
 import ar.com.grupoesfera.repartir.exceptions.GrupoInvalidoException;
 import ar.com.grupoesfera.repartir.exceptions.GrupoNoEncontradoException;
+import ar.com.grupoesfera.repartir.exceptions.MontoNegativoException;
 import ar.com.grupoesfera.repartir.model.Gasto;
 import ar.com.grupoesfera.repartir.model.Grupo;
 import ar.com.grupoesfera.repartir.repositories.GruposRepository;
@@ -170,5 +171,12 @@ class GruposServiceTest {
         Gasto gasto = new Gasto();
         gasto.setMonto(BigDecimal.valueOf(9700,2));
         return gasto;
+    }
+
+    @Test
+    void noSePuedeSetearElSaldoDeUnGrupoEnNegativo() {
+        Grupo grupo = new Grupo();
+        BigDecimal saldo = BigDecimal.valueOf(-50);
+        assertThrows(MontoNegativoException.class, () -> grupo.setTotal(saldo));
     }
 }
